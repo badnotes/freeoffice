@@ -19,6 +19,7 @@ interface RenderOfficeData {
 declare global {
   interface Window {
     onCreateNew: (ext: string) => Promise<void>;
+    onOpenDocument: () => Promise<any>;
     DocsAPI: {
       DocEditor: new (elementId: string, config: any) => any;
     };
@@ -111,6 +112,7 @@ const onOpenDocument = async () => {
     };
   });
 };
+window.onOpenDocument = onOpenDocument;
 
 // Create and append the control panel
 const createControlPanel = () => {
@@ -213,7 +215,7 @@ const createControlPanel = () => {
 };
 
 // Initialize the containers
-createControlPanel();
+// createControlPanel();
 
 if (!file) {
   // Don't automatically open document dialog, let user choose

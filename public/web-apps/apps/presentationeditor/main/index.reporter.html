@@ -7,6 +7,43 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
 
+    <!-- Chrome API polyfill for Firefox compatibility -->
+    <script>
+      // Polyfill for Chrome APIs to prevent ReferenceError in Firefox
+      if (typeof chrome === 'undefined') {
+        window.chrome = {
+          account360: {
+            getMID: function(callback) {
+              if (callback) {
+                callback(null);
+              }
+              return null;
+            }
+          },
+          runtime: {
+            sendMessage: function(message, callback) {
+              if (callback) {
+                callback(null);
+              }
+            },
+            onMessage: {
+              addListener: function() {},
+              removeListener: function() {}
+            }
+          }
+        };
+      }
+      
+      // Polyfill for performance.memory (Chrome-specific API)
+      if (typeof performance !== 'undefined' && !performance.memory) {
+        performance.memory = {
+          usedJSHeapSize: 0,
+          totalJSHeapSize: 0,
+          jsHeapSizeLimit: 0
+        };
+      }
+    </script>
+
     <!-- splash -->        
 
     <style>

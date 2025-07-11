@@ -27,7 +27,7 @@
       "@/components/*": ["./components/*"],
       "@/router/*": ["./router/*"],
       "@/lib/*": ["./lib/*"],
-      "@/store/*": ["./store/*"],
+      "@/store/*": ["store/index.ts"],
       "@/assets/*": ["./assets/*"],
       "@/pages/*": ["./pages/*"],
       "@/locales/*": ["./locales/*"]

@@ -3,15 +3,706 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="免费在线Office工具 - 无需下载，直接在浏览器中创建、编辑和共享Word文档、Excel电子表格和PPT演示文稿。完全免费使用！">
+    <meta name="keywords" content="免费office,在线word,在线excel,在线ppt,免费文档编辑,免费电子表格,免费演示文稿">
+    <title>FreeOffice - 免费在线Office工具 | Word, Excel, PPT在线编辑</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="/img/64.png" rel="shortcut icon" />
-    <title></title>
     <script src="/web-apps/apps/api/documents/api.js"></script>
+  
+    <style>
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
+
+      :root {
+          --primary: #4361ee;
+          --secondary: #3f37c9;
+          --accent: #4895ef;
+          --success: #4cc9f0;
+          --light: #f8f9fa;
+          --dark: #212529;
+          --word: #2b579a;
+          --excel: #217346;
+          --ppt: #d24726;
+          --upload: #6c757d;
+          --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          --transition: all 0.3s ease;
+      }
+
+      body {
+          font-family: 'Roboto', sans-serif;
+          background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+          color: var(--dark);
+          line-height: 1.6;
+          min-height: 100vh;
+          position: relative;
+          overflow-x: hidden;
+      }
+
+      body::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%234361ee" stroke-width="0.5" stroke-dasharray="5,5" opacity="0.1"/></svg>');
+          z-index: -1;
+          opacity: 0.05;
+      }
+
+      .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+          background: rgba(255, 255, 255, 0.95);
+          box-shadow: var(--shadow);
+          position: sticky;
+          top: 0;
+          z-index: 100;
+      }
+
+      .navbar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 20px 0;
+      }
+
+      .logo {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          text-decoration: none;
+      }
+
+      .logo-icon {
+          background: var(--primary);
+          color: white;
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 22px;
+          font-weight: 700;
+      }
+
+      .logo-text {
+          font-family: 'Poppins', sans-serif;
+          font-weight: 700;
+          font-size: 24px;
+          color: var(--primary);
+          letter-spacing: -0.5px;
+      }
+
+      .logo-text span {
+          color: var(--accent);
+      }
+
+      .nav-links {
+          display: flex;
+          gap: 30px;
+      }
+
+      .nav-link {
+          text-decoration: none;
+          color: var(--dark);
+          font-weight: 500;
+          font-size: 16px;
+          transition: var(--transition);
+          position: relative;
+      }
+
+      .nav-link:hover {
+          color: var(--primary);
+      }
+
+      .nav-link::after {
+          content: '';
+          position: absolute;
+          bottom: -5px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background: var(--primary);
+          transition: var(--transition);
+      }
+
+      .nav-link:hover::after {
+          width: 100%;
+      }
+
+      .auth-buttons {
+          display: flex;
+          gap: 15px;
+      }
+
+      .btn {
+          padding: 10px 20px;
+          border-radius: 8px;
+          font-weight: 500;
+          font-size: 15px;
+          cursor: pointer;
+          transition: var(--transition);
+          text-decoration: none;
+          display: inline-block;
+          text-align: center;
+          border: none;
+          font-family: 'Poppins', sans-serif;
+      }
+
+      .btn-outline {
+          background: transparent;
+          border: 2px solid var(--primary);
+          color: var(--primary);
+      }
+
+      .btn-outline:hover {
+          background: var(--primary);
+          color: white;
+      }
+
+      .btn-primary {
+          background: var(--primary);
+          color: white;
+          border: 2px solid var(--primary);
+      }
+
+      .btn-primary:hover {
+          background: var(--secondary);
+          transform: translateY(-2px);
+      }
+
+      /* Hero Section */
+      .hero {
+          padding: 72px 0 10px;
+          text-align: center;
+          max-width: 800px;
+          margin: 0 auto;
+      }
+
+      .hero h1 {
+          font-family: 'Poppins', sans-serif;
+          font-size: 3.5rem;
+          font-weight: 700;
+          line-height: 1.2;
+          margin-bottom: 20px;
+          color: var(--dark);
+          background: linear-gradient(90deg, var(--primary), var(--accent));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+      }
+
+      .hero p {
+          font-size: 1.25rem;
+          color: #495057;
+          margin-bottom: 40px;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+      }
+
+      .highlight {
+          background: linear-gradient(120deg, rgba(67, 97, 238, 0.15) 0%, rgba(67, 97, 238, 0) 100%);
+          padding: 2px 8px;
+          border-radius: 4px;
+          font-weight: 500;
+      }
+
+      /* Feature Cards */
+      .features {
+          padding: 40px 0 80px;
+      }
+
+      .section-title {
+          text-align: center;
+          font-family: 'Poppins', sans-serif;
+          font-size: 2.2rem;
+          font-weight: 700;
+          margin-bottom: 60px;
+          color: var(--dark);
+          position: relative;
+      }
+
+      .section-title::after {
+          content: '';
+          position: absolute;
+          bottom: -15px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 60px;
+          height: 4px;
+          background: var(--accent);
+          border-radius: 2px;
+      }
+
+      .cards-container {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 20px; /* 减小间隙让卡片更紧凑 */
+          max-width: 1300px; /* 增加最大宽度 */
+          margin: 0 auto;
+      }
+
+      .card {
+          background: white;
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: var(--shadow);
+          transition: var(--transition);
+          text-align: center;
+          padding: 30px 20px;
+          position: relative;
+          z-index: 1;
+      }
+
+      .card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .card-icon {
+        width: 70px;
+        height: 70px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 25px;
+          font-size: 28px;
+          color: white;
+      }
+
+      .card-icon.upload {
+          background: linear-gradient(135deg, var(--upload), #5a6268);
+      }
+
+      .card-icon.word {
+          background: linear-gradient(135deg, var(--word), #2b579a);
+      }
+
+      .card-icon.excel {
+          background: linear-gradient(135deg, var(--excel), #1d6f42);
+      }
+
+      .card-icon.ppt {
+          background: linear-gradient(135deg, var(--ppt), #c1442e);
+      }
+
+      .card h3 {
+          font-family: 'Poppins', sans-serif;
+          font-size: 1.8rem;
+          margin-bottom: 15px;
+      }
+
+      .card p {
+          color: #6c757d;
+          margin-bottom: 25px;
+          font-size: 1.05rem;
+      }
+
+      .card-btn {
+          padding: 12px 30px;
+          border-radius: 8px;
+          font-weight: 500;
+          font-size: 16px;
+          cursor: pointer;
+          transition: var(--transition);
+          text-decoration: none;
+          display: inline-block;
+          border: none;
+          font-family: 'Poppins', sans-serif;
+          width: 100%;
+          max-width: 200px;
+      }
+
+      .card-btn.upload {
+          background: var(--upload);
+          color: white;
+      }
+
+      .card-btn.upload:hover {
+          background: #5a6268;
+      }
+
+      .card-btn.word {
+          background: var(--word);
+          color: white;
+      }
+
+      .card-btn.word:hover {
+          background: #214e8a;
+      }
+
+      .card-btn.excel {
+          background: var(--excel);
+          color: white;
+      }
+
+      .card-btn.excel:hover {
+          background: #1b6239;
+      }
+
+      .card-btn.ppt {
+          background: var(--ppt);
+          color: white;
+      }
+
+      .card-btn.ppt:hover {
+          background: #b53e1d;
+      }
+
+      /* Benefits Section */
+      .benefits {
+          background: white;
+          padding: 80px 0;
+          border-radius: 30px 30px 0 0;
+          box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.05);
+      }
+
+      .benefits-container {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 40px;
+          max-width: 1100px;
+          margin: 0 auto;
+      }
+
+      .benefit {
+          display: flex;
+          gap: 20px;
+      }
+
+      .benefit-icon {
+          width: 60px;
+          height: 60px;
+          background: rgba(67, 97, 238, 0.1);
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--primary);
+          font-size: 24px;
+          flex-shrink: 0;
+      }
+
+      .benefit-content h3 {
+          font-family: 'Poppins', sans-serif;
+          font-size: 1.4rem;
+          margin-bottom: 10px;
+          color: var(--dark);
+      }
+
+      .benefit-content p {
+          color: #6c757d;
+      }
+
+      /* Footer */
+      footer {
+          background: var(--dark);
+          color: rgba(255, 255, 255, 0.7);
+          padding: 60px 0 30px;
+      }
+
+      .footer-content {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 40px;
+          margin-bottom: 40px;
+      }
+
+      .footer-col h4 {
+          color: white;
+          font-family: 'Poppins', sans-serif;
+          font-size: 1.3rem;
+          margin-bottom: 25px;
+          position: relative;
+      }
+
+      .footer-col h4::after {
+          content: '';
+          position: absolute;
+          bottom: -10px;
+          left: 0;
+          width: 40px;
+          height: 3px;
+          background: var(--accent);
+      }
+
+      .footer-links {
+          list-style: none;
+      }
+
+      .footer-links li {
+          margin-bottom: 12px;
+      }
+
+      .footer-links a {
+          color: rgba(255, 255, 255, 0.7);
+          text-decoration: none;
+          transition: var(--transition);
+          display: inline-block;
+      }
+
+      .footer-links a:hover {
+          color: white;
+          transform: translateX(5px);
+      }
+
+      .copyright {
+          text-align: center;
+          padding-top: 30px;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          font-size: 0.9rem;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+          .navbar {
+              flex-direction: column;
+              gap: 20px;
+          }
+          
+          .hero h1 {
+              font-size: 2.5rem;
+          }
+          
+          .hero p {
+              font-size: 1.1rem;
+          }
+          
+          .section-title {
+              font-size: 1.8rem;
+          }
+          
+          .auth-buttons {
+              width: 100%;
+              justify-content: center;
+          }
+      }
+
+      @media (max-width: 480px) {
+          .hero {
+              padding: 50px 0 30px;
+          }
+          
+          .hero h1 {
+              font-size: 2rem;
+          }
+          
+          .card {
+              padding: 30px 20px;
+          }
+      }
+      /* 响应式设计 - 在小屏幕上调整为2列 */
+      @media (max-width: 992px) {
+        .cards-container {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      /* 在更小的屏幕上调整为1列 */
+      @media (max-width: 576px) {
+        .cards-container {
+          grid-template-columns: 1fr;
+        }
+      }
+  </style>
   </head>
 
   <body>
     <div id="app" class="w-full h-full">
-      <div id="iframe"></div>
+      <div id="iframe">
+
+    <!-- Header -->
+    <header>
+      <div class="container">
+          <nav class="navbar">
+              <a href="/" class="logo">
+                  <div class="logo-icon">F</div>
+                  <div class="logo-text">Free<span>Office</span></div>
+              </a>
+              <div class="nav-links">
+                  <a href="/" class="nav-link">首页</a>
+                  <a href="#createDocument" class="nav-link">功能</a>
+                  <a href="#" class="nav-link">模板</a>
+                  <a href="#" class="nav-link">帮助中心</a>
+              </div>
+              <div class="auth-buttons">
+                  <a href="#" class="btn btn-outline">登录</a>
+                  <a href="#" class="btn btn-primary">免费注册</a>
+              </div>
+          </nav>
+      </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+      <div class="container">
+          <h1>免费在线Office工具</h1>
+          <p>无需下载安装，直接在浏览器中创建、编辑和共享<span class="highlight">Word文档</span>、<span class="highlight">Excel电子表格</span>和<span class="highlight">PPT演示文稿</span>。完全免费使用！</p>
+      </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+      <div class="container">
+          <h2 id="createDocument" class="section-title"  style="scroll-margin-top: 108px;">开始创建文档</h2>
+          <div class="cards-container">
+              <!-- Upload Card -->
+              <div class="card">
+                  <div class="card-icon upload">
+                      <i class="fas fa-cloud-upload-alt"></i>
+                  </div>
+                  <h3>上传文档</h3>
+                  <p>上传并编辑现有的Word、Excel或PPT文件，支持多种格式</p>
+                  <button id="uploadFile" class="card-btn upload">
+                      <i class="fas fa-file-upload"></i> 选择文件
+                  </button>
+              </div>
+
+              <!-- Word Card -->
+              <div class="card">
+                  <div class="card-icon word">
+                      <i class="fas fa-file-word"></i>
+                  </div>
+                  <h3>新建Word</h3>
+                  <p>创建专业文档、报告、简历和信件，丰富的模板供您选择</p>
+                  <button id="createWord" class="card-btn word">
+                      <i class="fas fa-plus"></i> 新建文档
+                  </button>
+              </div>
+
+              <!-- Excel Card -->
+              <div class="card">
+                  <div class="card-icon excel">
+                      <i class="fas fa-file-excel"></i>
+                  </div>
+                  <h3>新建Excel</h3>
+                  <p>创建电子表格，使用公式、图表和数据分析工具</p>
+                  <button id="createExcel" class="card-btn excel">
+                      <i class="fas fa-plus"></i> 新建表格
+                  </button>
+              </div>
+
+              <!-- PPT Card -->
+              <div class="card">
+                  <div class="card-icon ppt">
+                      <i class="fas fa-file-powerpoint"></i>
+                  </div>
+                  <h3>新建PPT</h3>
+                  <p>创建引人注目的演示文稿，动画、过渡和设计工具一应俱全</p>
+                  <button id="createPPT" class="card-btn ppt">
+                      <i class="fas fa-plus"></i> 新建演示
+                  </button>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="benefits">
+      <div class="container">
+          <h2 class="section-title">为什么选择FreeOffice?</h2>
+          <div class="benefits-container">
+              <div class="benefit">
+                  <div class="benefit-icon">
+                      <i class="fas fa-lock"></i>
+                  </div>
+                  <div class="benefit-content">
+                      <h3>安全可靠</h3>
+                      <p>所有文档都经过加密处理，确保您的数据安全。我们不会存储您的敏感信息。</p>
+                  </div>
+              </div>
+              <div class="benefit">
+                  <div class="benefit-icon">
+                      <i class="fas fa-sync-alt"></i>
+                  </div>
+                  <div class="benefit-content">
+                      <h3>实时协作</h3>
+                      <p>与团队成员实时协作编辑文档，查看他人的编辑内容并即时沟通。</p>
+                  </div>
+              </div>
+              <div class="benefit">
+                  <div class="benefit-icon">
+                      <i class="fas fa-mobile-alt"></i>
+                  </div>
+                  <div class="benefit-content">
+                      <h3>多设备同步</h3>
+                      <p>在手机、平板或电脑上无缝工作，所有更改自动同步到云端。</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+      <div class="container">
+          <div class="footer-content">
+              <div class="footer-col">
+                  <h4>FreeOffice</h4>
+                  <p>免费在线Office工具，让您随时随地创建和编辑文档、电子表格和演示文稿。</p>
+              </div>
+              <div class="footer-col">
+                  <h4>产品</h4>
+                  <ul class="footer-links">
+                      <li><a href="#"><i class="fas fa-angle-right"></i> FreeWord</a></li>
+                      <li><a href="#"><i class="fas fa-angle-right"></i> FreeExcel</a></li>
+                      <li><a href="#"><i class="fas fa-angle-right"></i> FreePPT</a></li>
+                      <li><a href="#"><i class="fas fa-angle-right"></i> 模板库</a></li>
+                  </ul>
+              </div>
+              <div class="footer-col">
+                  <h4>资源</h4>
+                  <ul class="footer-links">
+                      <li><a href="#"><i class="fas fa-angle-right"></i> 帮助中心</a></li>
+                      <li><a href="#"><i class="fas fa-angle-right"></i> 学习教程</a></li>
+                      <li><a href="#"><i class="fas fa-angle-right"></i> 博客</a></li>
+                      <li><a href="#"><i class="fas fa-angle-right"></i> 社区论坛</a></li>
+                  </ul>
+              </div>
+              <div class="footer-col">
+                  <h4>公司</h4>
+                  <ul class="footer-links">
+                      <li><a href="#"><i class="fas fa-angle-right"></i> 关于我们</a></li>
+                      <li><a href="#"><i class="fas fa-angle-right"></i> 服务条款</a></li>
+                      <li><a href="#"><i class="fas fa-angle-right"></i> 隐私政策</a></li>
+                      <li><a href="#"><i class="fas fa-angle-right"></i> 联系我们</a></li>
+                  </ul>
+              </div>
+          </div>
+          <div class="copyright">
+              &copy; 2025 FreeOffice.app - 免费在线Office工具。保留所有权利。
+          </div>
+      </div>
+  </footer>
+      </div>
     </div>
   </body>
   <script type="module" src="./index.ts"></script>
+  <script>
+    document.getElementById('createWord').addEventListener('click', () => {
+      window.onCreateNew('.docx');
+    });
+    document.getElementById('createExcel').addEventListener('click', () => {
+      window.onCreateNew('.xlsx');
+    });
+    document.getElementById('createPPT').addEventListener('click', () => {
+      window.onCreateNew('.pptx');
+    });
+    document.getElementById('uploadFile').addEventListener('click', () => {
+      window.onOpenDocument();
+    });
+  </script>
 </html>
