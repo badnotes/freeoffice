@@ -636,7 +636,7 @@ function instantiateAsync(binary, binaryFile, imports, callback) {
         console.warn('Fallback decompression triggered');
         const compressed = response.arrayBuffer();
         const wasmBuffer = decompressGzip(compressed);
-        resolve(WebAssembly.instantiate(wasmBuffer, imports))
+        result = WebAssembly.instantiate(wasmBuffer, imports);
       }
       else{
         result = new Promise((resolve)=>{
