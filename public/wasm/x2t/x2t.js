@@ -560,6 +560,7 @@ function getBinaryPromise(binaryFile) {
         if (!response['ok']) {
           throw `failed to load wasm binary file at '${binaryFile}'`;
         }
+        const contentType = response.headers.get('content-type') || '';
         if (contentType.includes('gzip') && binaryFile.includes('wasm')) {
           console.warn('Fallback decompression triggered');
           const compressed = response.arrayBuffer();
@@ -628,7 +629,8 @@ function instantiateAsync(binary, binaryFile, imports, callback) {
       // TODO(https://github.com/google/closure-compiler/pull/3913): Remove if/when upstream closure is fixed.
       /** @suppress {checkTypes} */
       var result = null;
-      if (response.headers.get('Content-Type') === 'application/wasm') {
+      const contentType = response.headers.get('content-type') || '';
+      if (contentType === 'application/wasm') {
         result = WebAssembly.instantiateStreaming(response, imports);
       } else if (contentType.includes('gzip') && binaryFile.includes('wasm')) {
         console.warn('Fallback decompression triggered');
