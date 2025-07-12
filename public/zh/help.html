@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帮助中心 - FreeOffice 隐私优先的在线Office工具</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/home.css">
+    <style>
+        /* Help Center Hero */
+        .help-hero {
+            padding: 80px 0 40px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .help-hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .help-hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .category-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-title i {
+            color: var(--primary);
+        }
+
+        .sidebar-links {
+            list-style: none;
+            padding-left: 10px;
+        }
+
+        .sidebar-links li {
+            margin-bottom: 12px;
+        }
+
+        .sidebar-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-links a:hover {
+            color: var(--primary);
+        }
+
+        .sidebar-links a.active {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* Help Articles */
+        .help-articles {
+            flex: 1;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 2;
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .faq-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .faq-question {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-question i {
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .faq-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-toggle:hover {
+            color: var(--primary);
+        }
+
+        .faq-answer {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            padding-top: 15px;
+            margin-top: 15px;
+            border-top: 1px dashed var(--border-color);
+            display: none;
+        }
+
+        .faq-answer.show {
+            display: block;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .article-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            height: 100%;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-image {
+            height: 160px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+        }
+
+        .article-content {
+            padding: 20px;
+        }
+
+        .article-category {
+            display: inline-block;
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .article-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .article-excerpt {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .read-more {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 60px;
+            border: 1px solid var(--border-color);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .contact-info h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .contact-methods {
+            display: grid;
+            gap: 20px;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(67, 97, 238, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .contact-details h4 {
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .contact-details p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="/zh/" class="logo">
+                    <div class="logo-icon">F</div>
+                    <div class="logo-text">Free<span>Office</span> 
+                        <span class="privacy-badge">
+                            <i class="fas fa-shield-alt"></i> 隐私优先
+                        </span>
+                    </div>
+                </a>
+              <div class="nav-links">
+                  <a href="/zh/" class="nav-link">首页</a>
+                  <a href="/zh/#createDocument" class="nav-link">功能</a>
+                  <a href="/zh/help.html" class="nav-link">帮助中心</a>
+              </div>
+                <div class="utility-buttons">
+                    <!-- 语言选择器 -->
+                    <div class="language-selector">
+                        <button class="language-toggle">
+                            <i class="fas fa-globe"></i>
+                            <span class="current-language">中文</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="language-dropdown">
+                            <div class="language-option" data-lang="zh" onclick="window.location.href='/zh/help.html'">
+                                <i class="fas fa-check"></i>
+                                <span>中文</span>
+                            </div>
+                            <div class="language-option" data-lang="en" onclick="window.location.href='/help.html'">
+                                <i class="fas"></i>
+                                <span>English</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 暗黑模式切换 -->
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-sun"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Help Center Hero -->
+    <section class="help-hero">
+        <div class="container">
+            <h1>FreeOffice 帮助中心</h1>
+            <p>查找您需要的答案、指南和教程，充分利用我们的隐私优先Office工具</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="help-content">
+            <!-- Help Articles -->
+            <div class="help-articles">
+                <div class="section-header">
+                    <h2 class="section-title">热门问题</h2>
+                </div>
+                
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-header">
+                            <div class="faq-question">
+                                <i class="fas fa-question-circle"></i>
+                                FreeOffice 是否完全免费？
+                            </div>
+                            <button class="faq-toggle">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div class="faq-answer show">
+                            <p>是的，FreeOffice 是完全免费的在线Office工具。我们承诺提供永久免费的核心功能，包括文档编辑、电子表格处理和演示文稿制作。未来如有高级功能计划，我们将继续保持基本功能的免费使用。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-header">
+                            <div class="faq-question">
+                                <i class="fas fa-question-circle"></i>
+                                我的文档数据是否会被上传到服务器？
+                            </div>
+                            <button class="faq-toggle">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div class="faq-answer show">
+                            <p>不会。FreeOffice 采用隐私优先设计，所有文档处理都在您的浏览器中完成，数据永远不会上传到我们的服务器。当您关闭浏览器标签时，所有临时数据将自动清除，确保您的隐私安全。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-header">
+                            <div class="faq-question">
+                                <i class="fas fa-question-circle"></i>
+                                支持哪些文件格式？
+                            </div>
+                            <button class="faq-toggle">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div class="faq-answer show">
+                            <p>FreeOffice 支持广泛的文件格式：</p>
+                            <ul style="margin-left:32px;">
+                                <li><strong>文档</strong>: DOCX, DOC, ODT, RTF, TXT</li>
+                                <li><strong>电子表格</strong>: XLSX, XLS, ODS, CSV</li>
+                                <li><strong>演示文稿</strong>: PPTX, PPT, ODP</li>
+                                <li><strong>导出格式</strong>: PDF, HTML, 图像文件</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-header">
+                            <div class="faq-question">
+                                <i class="fas fa-question-circle"></i>
+                                是否需要创建账户才能使用？
+                            </div>
+                            <button class="faq-toggle">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div class="faq-answer show">
+                            <p>不需要。FreeOffice 设计为无需账户即可使用。您可以直接访问我们的网站并开始创建或编辑文档。这种设计进一步保护了您的隐私，因为我们不需要收集任何个人信息。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-header">
+                            <div class="faq-question">
+                                <i class="fas fa-question-circle"></i>
+                                如何在离线状态下使用 FreeOffice？
+                            </div>
+                            <button class="faq-toggle">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div class="faq-answer show">
+                            <p>虽然 FreeOffice 是在线工具，但您可以通过以下步骤启用离线使用：</p>
+                            <ol style="margin-left:32px;">
+                                <li>使用 Chrome、Edge 或 Firefox 浏览器访问 FreeOffice</li>
+                                <li>点击浏览器地址栏右侧的"安装"图标</li>
+                                <li>选择"安装 FreeOffice"</li>
+                                <li>安装后即可离线使用基本功能</li>
+                            </ol>
+                            <p>请注意，某些高级功能可能需要网络连接。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-header" style="margin-top: 50px;">
+                    <h2 class="section-title">热门指南</h2>
+                </div>
+                
+                <div class="articles-grid">
+                    <div class="article-card">
+                        <div class="article-image">
+                            <i class="fas fa-file-word"></i>
+                        </div>
+                        <div class="article-content">
+                            <span class="article-category">文档编辑</span>
+                            <h3 class="article-title">掌握文档格式设置技巧</h3>
+                            <p class="article-excerpt">学习如何高效使用文本格式、段落样式和页面布局功能创建专业文档...</p>
+                            <a href="#" class="read-more">阅读指南 <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="article-card">
+                        <div class="article-image">
+                            <i class="fas fa-file-excel"></i>
+                        </div>
+                        <div class="article-content">
+                            <span class="article-category">电子表格</span>
+                            <h3 class="article-title">Excel公式与函数完全指南</h3>
+                            <p class="article-excerpt">从基础公式到高级函数，掌握电子表格数据分析的核心技能...</p>
+                            <a href="#" class="read-more">阅读指南 <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="article-card">
+                        <div class="article-image">
+                            <i class="fas fa-file-powerpoint"></i>
+                        </div>
+                        <div class="article-content">
+                            <span class="article-category">演示文稿</span>
+                            <h3 class="article-title">创建令人惊叹的演示文稿</h3>
+                            <p class="article-excerpt">学习设计原则、动画技巧和演讲技巧，打造引人入胜的演示文稿...</p>
+                            <a href="#" class="read-more">阅读指南 <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Section -->
+                <div class="contact-section">
+                    <div class="contact-grid">
+                        <div class="contact-info">
+                            <h3>需要更多帮助？</h3>
+                            <p>我们的支持团队随时准备为您解答问题</p>
+                            
+                            <div class="contact-methods">
+                                <div class="contact-method">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <h4>电子邮件支持</h4>
+                                        <p>support@freeoffice.app</p>
+                                        <p>通常在24小时内回复</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-method">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <h4>社区论坛</h4>
+                                        <p>加入我们的用户社区</p>
+                                        <p>分享知识和解决方案</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-method">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-book"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <h4>知识库</h4>
+                                        <p>浏览详细文档和教程</p>
+                                        <p>自学解决问题</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-form">
+                            <h3>发送消息</h3>
+                            <form>
+                                <div class="form-group">
+                                    <label for="name">您的姓名</label>
+                                    <input type="text" id="name" class="form-control" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email">电子邮箱</label>
+                                    <input type="email" id="email" class="form-control" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="subject">主题</label>
+                                    <input type="text" id="subject" class="form-control" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="message">消息</label>
+                                    <textarea id="message" class="form-control" required></textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">发送消息</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>FreeOffice</h4>
+                    <p>隐私优先的在线Office工具，让您完全掌控自己的数据。</p>
+                </div>
+                <div class="footer-col">
+                    <h4>产品</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-angle-right"></i> FreeWord</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> FreeExcel</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> FreePPT</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>资源</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-angle-right"></i> 帮助中心</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> 使用教程</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> 隐私政策</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>公司</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-angle-right"></i> 关于我们</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> 服务条款</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> 联系我们</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 FreeOffice.app - 您的隐私优先在线Office工具。保留所有权利。
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 暗黑模式切换
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        // 检查用户是否设置了暗黑模式偏好
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // 从本地存储中获取主题设置，或根据系统偏好设置
+        const currentTheme = localStorage.getItem('theme') || 
+                            (prefersDarkScheme.matches ? 'dark' : 'light');
+        
+        // 应用主题
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+        
+        // 切换主题
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+        
+        // 语言选择器
+        const languageToggle = document.querySelector('.language-toggle');
+        const languageDropdown = document.querySelector('.language-dropdown');
+        const languageOptions = document.querySelectorAll('.language-option');
+        const currentLanguage = document.querySelector('.current-language');
+        
+        // 切换语言下拉菜单显示
+        languageToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            languageDropdown.classList.toggle('show');
+        });
+        
+        // 选择语言
+        languageOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                
+                // 更新当前语言显示
+                currentLanguage.textContent = this.querySelector('span').textContent;
+                
+                // 更新选中状态
+                languageOptions.forEach(opt => {
+                    const icon = opt.querySelector('i');
+                    if (opt === this) {
+                        icon.classList.add('fa-check');
+                    } else {
+                        icon.classList.remove('fa-check');
+                    }
+                });
+                
+                // 在实际应用中，这里会加载对应的语言文件
+                console.log(`切换语言到: ${lang}`);
+                
+                // 关闭下拉菜单
+                languageDropdown.classList.remove('show');
+            });
+        });
+        
+        // 点击页面其他区域关闭语言下拉菜单
+        document.addEventListener('click', function(e) {
+            if (!languageToggle.contains(e.target)) {
+                languageDropdown.classList.remove('show');
+            }
+        });
+        
+        // FAQ 折叠功能
+        const faqToggles = document.querySelectorAll('.faq-toggle');
+        
+        faqToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const faqItem = this.closest('.faq-item');
+                const answer = faqItem.querySelector('.faq-answer');
+                const icon = this.querySelector('i');
+                
+                if (answer.classList.contains('show')) {
+                    answer.classList.remove('show');
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                } else {
+                    answer.classList.add('show');
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

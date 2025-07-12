@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <meta name="description" content="免费在线Office工具 - 无需下载，直接在浏览器中创建、编辑和共享Word文档、Excel电子表格和PPT演示文稿。您的数据永不离开设备！">
+    <meta name="keywords" content="免费office,在线word,在线excel,在线ppt,免费文档编辑,免费电子表格,免费演示文稿">
+    <title>FreeOffice - 免费在线Office工具 | Word, Excel, PPT在线编辑</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <link href="/img/64.png" rel="shortcut icon" />
+    <link rel="stylesheet" href="/styles/home.css">
+    <script src="/web-apps/apps/api/documents/api.js"></script>
+  </head>
+
+  <body>
+    <div id="app" class="w-full h-full">
+      <div id="iframe">
+
+    <!-- Header -->
+    <header>
+      <div class="container">
+          <nav class="navbar">
+              <a href="/zh/" class="logo">
+                  <div class="logo-icon">F</div>
+                  <div class="logo-text">Free<span>Office</span></div>
+              </a>
+              <div class="nav-links">
+                  <a href="/zh/" class="nav-link">首页</a>
+                  <a href="/zh/#createDocument" class="nav-link">功能</a>
+                  <a href="/zh/help.html" class="nav-link">帮助中心</a>
+              </div>
+              <div class="utility-buttons">
+                    <!-- 语言选择器 -->
+                    <div class="language-selector">
+                        <button class="language-toggle">
+                            <i class="fas fa-globe"></i>
+                            <span class="current-language">中文</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="language-dropdown">
+                            <div class="language-option" data-lang="zh" onclick="window.location.href='/zh/'">
+                                <i class="fas fa-check"></i>
+                                <span>中文</span>
+                            </div>
+                            <div class="language-option" data-lang="en" onclick="window.location.href='/'">
+                                <i class="fas"></i>
+                                <span>English</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 暗黑模式切换 -->
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-sun"></i>
+                    </button>
+                </div>
+          </nav>
+      </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+      <div class="container">
+          <h1>免费在线Office工具</h1>
+          无需下载安装，直接在浏览器中创建、编辑文档，您的数据永不离开设备，享受真正的隐私保护！
+          <p>无需下载安装，直接在浏览器中创建、编辑文档<span class="highlight">Word文档</span>、<span class="highlight">Excel电子表格</span>和<span class="highlight">PPT演示文稿</span>。完全免费使用！</p>
+          <div class="privacy-guarantee">
+                <i class="fas fa-lock" style="color: #4CAF50;"></i>
+                <strong>隐私承诺：</strong> 所有文档处理在您的浏览器中完成，数据不会上传到任何服务器
+          </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+      <div class="container">
+          <h2 id="createDocument" class="section-title"  style="scroll-margin-top: 108px;">开始创建文档</h2>
+          <div class="cards-container">
+              <!-- Upload Card -->
+              <div class="card">
+                  <div class="card-icon upload">
+                      <i class="fas fa-cloud-upload-alt"></i>
+                  </div>
+                  <h3>上传文档</h3>
+                  <p>上传并编辑现有的Word、Excel或PPT文件，支持多种格式</p>
+                  <button id="uploadFile" class="card-btn upload">
+                      <i class="fas fa-file-upload"></i> 选择文件
+                  </button>
+              </div>
+
+              <!-- Word Card -->
+              <div class="card">
+                  <div class="card-icon word">
+                      <i class="fas fa-file-word"></i>
+                  </div>
+                  <h3>新建Word</h3>
+                  <p>创建专业文档、报告、简历和信件，丰富的模板供您选择</p>
+                  <button id="createWord" class="card-btn word">
+                      <i class="fas fa-plus"></i> 新建文档
+                  </button>
+              </div>
+
+              <!-- Excel Card -->
+              <div class="card">
+                  <div class="card-icon excel">
+                      <i class="fas fa-file-excel"></i>
+                  </div>
+                  <h3>新建Excel</h3>
+                  <p>创建电子表格，使用公式、图表和数据分析工具</p>
+                  <button id="createExcel" class="card-btn excel">
+                      <i class="fas fa-plus"></i> 新建表格
+                  </button>
+              </div>
+
+              <!-- PPT Card -->
+              <div class="card">
+                  <div class="card-icon ppt">
+                      <i class="fas fa-file-powerpoint"></i>
+                  </div>
+                  <h3>新建PPT</h3>
+                  <p>创建引人注目的演示文稿，动画、过渡和设计工具一应俱全</p>
+                  <button id="createPPT" class="card-btn ppt">
+                      <i class="fas fa-plus"></i> 新建演示
+                  </button>
+              </div>
+          </div>
+      </div>
+  </section>
+
+   <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">为什么选择FreeOffice?</h2>
+            <div class="benefits-container">
+                <div class="benefit">
+                    <div class="benefit-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3>数据永不离开您的设备</h3>
+                        <p>所有文档处理都在您的浏览器中完成，数据不会上传到任何服务器，确保100%的隐私安全。</p>
+                    </div>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon">
+                        <i class="fas fa-ban"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3>无需账户，无需同步</h3>
+                        <p>无需创建账户，无需数据同步，没有云端存储，让您的工作更简单、更安全。</p>
+                    </div>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="benefit-content">
+                        <h3>快速高效</h3>
+                        <p>由于所有处理都在本地进行，文档处理速度更快，响应更迅速，无需等待服务器响应。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Section -->
+    <section class="privacy-section">
+        <div class="container">
+            <div class="privacy-content">
+                <div class="privacy-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h2>您的隐私，我们最优先考虑</h2>
+                <p>在FreeOffice，我们相信您的文档应该属于您，而且只属于您。我们采用独特的浏览器端处理技术，确保您的敏感数据永远不会离开您的设备。</p>
+                
+                <div class="privacy-features">
+                    <div class="privacy-feature">
+                        <i class="fas fa-server"></i>
+                        <h4>无服务器存储</h4>
+                        <p>您的文档永远不会存储在我们的服务器上</p>
+                    </div>
+                    <div class="privacy-feature">
+                        <img src="/img/icon/MaterialSymbolsCloudOffOutline.svg" alt="无云端同步" style="width: 50px; height: 50px;">
+                        <h4>无云端同步</h4>
+                        <p>无需担心数据被同步到未知的云端</p>
+                    </div>
+                    <div class="privacy-feature">
+                        <i class="fas fa-users-slash"></i>
+                        <h4>无协作功能</h4>
+                        <p>专注于个人使用，无需担心意外共享</p>
+                    </div>
+                    <div class="privacy-feature">
+                        <i class="fas fa-history"></i>
+                        <h4>无历史记录</h4>
+                        <p>关闭浏览器后，所有临时数据自动清除</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <!-- Footer -->
+  <footer>
+      <div class="container">
+          <div class="footer-content">
+              <div class="footer-col">
+                  <h4>FreeOffice</h4>
+                  <p>免费在线Office工具，让您随时随地创建和编辑文档、电子表格和演示文稿。</p>
+              </div>
+              <div class="footer-col">
+                  <h4>产品</h4>
+                  <ul class="footer-links">
+                      <li><a href="#createDocument"><i class="fas fa-angle-right"></i> FreeWord</a></li>
+                      <li><a href="#createDocument"><i class="fas fa-angle-right"></i> FreeExcel</a></li>
+                      <li><a href="#createDocument"><i class="fas fa-angle-right"></i> FreePPT</a></li>
+                  </ul>
+              </div>
+              <div class="footer-col">
+                  <h4>资源</h4>
+                  <ul class="footer-links">
+                      <li><a href="/zh/help.html"><i class="fas fa-angle-right"></i> 帮助中心</a></li>
+                      <li><a href="#"><i class="fas fa-angle-right"></i> 服务条款</a></li>
+                      <li><a href="#"><i class="fas fa-angle-right"></i> 隐私政策</a></li>
+                  </ul>
+              </div>
+              <div class="footer-col">
+                  <h4>公司</h4>
+                  <ul class="footer-links">
+                      <li><a href="#"><i class="fas fa-angle-right"></i> 关于我们</a></li>
+                      <li><a href="#"><i class="fas fa-angle-right"></i> 联系我们</a></li>
+                  </ul>
+              </div>
+          </div>
+          <div class="copyright">
+              &copy; 2025 FreeOffice.app - 免费在线Office工具。保留所有权利。
+          </div>
+      </div>
+  </footer>
+      </div>
+    </div>
+  </body>
+  <script type="module" src="./index.ts"></script>
+  <script>
+        // 暗黑模式切换
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        // 检查用户是否设置了暗黑模式偏好
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // 从本地存储中获取主题设置，或根据系统偏好设置
+        const currentTheme = localStorage.getItem('theme') || 
+                            (prefersDarkScheme.matches ? 'dark' : 'light');
+        
+        // 应用主题
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+        
+        // 切换主题
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+        
+        // 语言选择器
+        const languageToggle = document.querySelector('.language-toggle');
+        const languageDropdown = document.querySelector('.language-dropdown');
+        const languageOptions = document.querySelectorAll('.language-option');
+        const currentLanguage = document.querySelector('.current-language');
+        
+        // 切换语言下拉菜单显示
+        languageToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            languageDropdown.classList.toggle('show');
+        });
+        
+        // 选择语言
+        languageOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                
+                // 更新当前语言显示
+                currentLanguage.textContent = this.querySelector('span').textContent;
+                
+                // 更新选中状态
+                languageOptions.forEach(opt => {
+                    const icon = opt.querySelector('i');
+                    if (opt === this) {
+                        icon.classList.add('fa-check');
+                    } else {
+                        icon.classList.remove('fa-check');
+                    }
+                });
+                
+                // 在实际应用中，这里会加载对应的语言文件
+                console.log(`切换语言到: ${lang}`);
+                
+                // 关闭下拉菜单
+                languageDropdown.classList.remove('show');
+            });
+        });
+        
+        // 点击页面其他区域关闭语言下拉菜单
+        document.addEventListener('click', function(e) {
+            if (!languageToggle.contains(e.target) && !languageDropdown.contains(e.target)) {
+                languageDropdown.classList.remove('show');
+            }
+        });
+
+    document.getElementById('createWord').addEventListener('click', () => {
+      window.onCreateNew('.docx');
+    });
+    document.getElementById('createExcel').addEventListener('click', () => {
+      window.onCreateNew('.xlsx');
+    });
+    document.getElementById('createPPT').addEventListener('click', () => {
+      window.onCreateNew('.pptx');
+    });
+    document.getElementById('uploadFile').addEventListener('click', () => {
+      window.onOpenDocument();
+    });
+  </script>
+</html>

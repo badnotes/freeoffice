@@ -1,6 +1,6 @@
 # OnlyOffice Web
 
-🌐 **Live Demo**: https://ranuts.github.io/document/
+🌐 **Live Demo**: https://freeoffice.app/
 
 [English](readme.md) | [中文](readme.zh.md)
 
@@ -26,7 +26,7 @@ This project is built on the following core technologies:
 
 ### Basic Usage
 
-1. Visit the [Online Editor](https://ranuts.github.io/document/)
+1. Visit the [Online Editor](https://freeoffice.app/)
 2. Upload your document files
 3. Edit directly in your browser
 4. Download the edited documents
@@ -46,10 +46,10 @@ This project also provides foundational services for document preview components
 
 ```bash
 # Clone the repository
-git clone https://github.com/ranuts/document.git
+git clone https://github.com/badnotes/freeoffice.git
 
 # Navigate to the project directory
-cd document
+cd freeoffice
 
 # Install dependencies
 npm install

@@ -1,6 +1,6 @@
 # OnlyOffice Web
 
-🌐 **在线体验**: https://ranuts.github.io/document/
+🌐 **在线体验**: https://freeoffice.app/
 
 [English](readme.md) | [中文](readme.zh.md)
 
@@ -26,7 +26,7 @@
 
 ### 基本使用
 
-1. 访问 [在线编辑器](https://ranuts.github.io/document/)
+1. 访问 [在线编辑器](https://freeoffice.app/)
 2. 上传您的文档文件
 3. 直接在浏览器中编辑
 4. 下载编辑后的文档
@@ -46,10 +46,10 @@
 
 ```bash
 # 克隆项目
-git clone https://github.com/ranuts/document.git
+git clone https://github.com/badnotes/freeoffice.git
 
 # 进入项目目录
-cd document
+cd freeoffice
 
 # 安装依赖
 npm install
