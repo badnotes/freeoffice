@@ -560,6 +560,12 @@ function getBinaryPromise(binaryFile) {
         if (!response['ok']) {
           throw `failed to load wasm binary file at '${binaryFile}'`;
         }
+        if (contentType.includes('gzip') && binaryFile.includes('wasm')) {
+          console.warn('Fallback decompression triggered');
+          const compressed = response.arrayBuffer();
+          const wasmBuffer = decompressGzip(compressed);
+          return wasmBuffer;
+        }
         return response['arrayBuffer']();
       }).catch((error) => {
         console.warn(`Failed to load ${binaryFile}, falling back to sync loading:`, error);
@@ -624,7 +630,13 @@ function instantiateAsync(binary, binaryFile, imports, callback) {
       var result = null;
       if (response.headers.get('Content-Type') === 'application/wasm') {
         result = WebAssembly.instantiateStreaming(response, imports);
-      }else{
+      } else if (contentType.includes('gzip') && binaryFile.includes('wasm')) {
+        console.warn('Fallback decompression triggered');
+        const compressed = response.arrayBuffer();
+        const wasmBuffer = decompressGzip(compressed);
+        resolve(WebAssembly.instantiate(wasmBuffer, imports))
+      }
+      else{
         result = new Promise((resolve)=>{
             response.arrayBuffer().then(bytes =>
                 resolve(WebAssembly.instantiate(bytes, imports))
@@ -645,6 +657,21 @@ function instantiateAsync(binary, binaryFile, imports, callback) {
     });
   }
   return instantiateArrayBuffer(binaryFile, imports, callback);
+}
+
+// Gzip 解压工具函数
+async function decompressGzip(buffer) {
+  if (typeof DecompressionStream !== 'undefined') {
+    // 现代浏览器 API
+    const ds = new DecompressionStream('gzip');
+    const decompressed = await new Response(
+      new Blob([buffer]).stream().pipeThrough(ds)
+    ).arrayBuffer();
+    return decompressed;
+  } else {
+    // 兼容方案：使用 pako 库
+    return (await import('pako')).ungzip(new Uint8Array(buffer)).buffer;
+  }
 }
 
 // Create the wasm instance.
