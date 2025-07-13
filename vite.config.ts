@@ -32,7 +32,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         zh_main: resolve(__dirname, 'zh/index.html'),
         help: resolve(__dirname, 'help/index.html'),
-        'zh-help': resolve(__dirname, 'zh/help.html'),
+        zh_help: resolve(__dirname, 'zh/help/index.html'),
       },
     },
   },
