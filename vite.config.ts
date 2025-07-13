@@ -24,6 +24,16 @@ export default defineConfig({
       scss: {
         additionalData: `@import "@/styles/base.css"; @import "@/styles/home.css";`, 
       },
+    }
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        zh_main: resolve(__dirname, 'zh/index.html'),
+        help: resolve(__dirname, 'help/index.html'),
+        'zh-help': resolve(__dirname, 'zh/help.html'),
+      },
     },
   },
 });
