@@ -636,11 +636,12 @@ function instantiateAsync(binary, binaryFile, imports, callback) {
         console.warn('Fallback decompression triggered');
         const compressed = response.arrayBuffer();
         const wasmBuffer = decompressGzip(compressed);
-        result = new Promise((resolve)=>{
-            wasmBuffer.then(bytes =>
-                resolve(WebAssembly.instantiate(bytes, imports))
-            );
-          })
+        result = WebAssembly.instantiateStreaming(wasmBuffer, imports);
+        // result = new Promise((resolve)=>{
+        //     wasmBuffer.then(bytes =>
+        //         resolve(WebAssembly.instantiate(bytes, imports))
+        //     );
+        //   })
       }
       else{
         result = new Promise((resolve)=>{
@@ -666,17 +667,17 @@ function instantiateAsync(binary, binaryFile, imports, callback) {
 }
 
 // Gzip 解压工具函数
-async function decompressGzip(buffer) {
+function decompressGzip(buffer) {
   if (typeof DecompressionStream !== 'undefined') {
     // 现代浏览器 API
     const ds = new DecompressionStream('gzip');
-    const decompressed = await new Response(
+    const decompressed = new Response(
       new Blob([buffer]).stream().pipeThrough(ds)
     ).arrayBuffer();
     return decompressed;
   } else {
     // 兼容方案：使用 pako 库
-    return (await import('pako')).ungzip(new Uint8Array(buffer)).buffer;
+    return (import('pako')).ungzip(new Uint8Array(buffer)).buffer;
   }
 }
 
