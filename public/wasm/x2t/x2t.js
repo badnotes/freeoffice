@@ -518,7 +518,7 @@ var isFileURI = (filename) => filename.startsWith('file://');
 // include: runtime_exceptions.js
 // end include: runtime_exceptions.js
 var wasmBinaryFile;
-  wasmBinaryFile = 'x2t.wasm.br';
+  wasmBinaryFile = 'x2t.wasm.gz';
   if (!isDataURI(wasmBinaryFile)) {
     wasmBinaryFile = locateFile(wasmBinaryFile);
   }
@@ -634,12 +634,27 @@ function instantiateAsync(binary, binaryFile, imports, callback) {
         result = WebAssembly.instantiateStreaming(response, imports);
       } else if (contentType.includes('gzip') && binaryFile.includes('wasm')) {
         console.warn('Fallback decompression triggered');
-        const compressed = response.arrayBuffer();
-        const wasmBuffer = decompressGzip(compressed);
-        result = WebAssembly.instantiateStreaming(wasmBuffer, imports);
+    
+        // result = WebAssembly.instantiateStreaming(bytes, imports);
+        result = new Promise((resolve)=>{
+          response.arrayBuffer().then(buffer => {
+            console.log(buffer);
+              decompressGzip(buffer).then(bytes => {
+                  console.log(bytes);
+                  return resolve(WebAssembly.instantiate(bytes, imports))
+              }
+            );
+          });
+
+        })
+        // const wasmBuffer = decompressGzip(response.arrayBuffer());
+        // console.log(wasmBuffer)
+        // result = WebAssembly.instantiateStreaming(wasmBuffer, imports);
         // result = new Promise((resolve)=>{
-        //     wasmBuffer.then(bytes =>
-        //         resolve(WebAssembly.instantiate(bytes, imports))
+        //     wasmBuffer.then(bytes => {
+        //         console.log(bytes);
+        //         return resolve(WebAssembly.instantiate(bytes, imports))
+        //     }
         //     );
         //   })
       }
@@ -667,17 +682,17 @@ function instantiateAsync(binary, binaryFile, imports, callback) {
 }
 
 // Gzip 解压工具函数
-function decompressGzip(buffer) {
+async function decompressGzip(buffer) {
   if (typeof DecompressionStream !== 'undefined') {
     // 现代浏览器 API
     const ds = new DecompressionStream('gzip');
-    const decompressed = new Response(
+    const decompressed = await new Response(
       new Blob([buffer]).stream().pipeThrough(ds)
     ).arrayBuffer();
     return decompressed;
   } else {
     // 兼容方案：使用 pako 库
-    return (import('pako')).ungzip(new Uint8Array(buffer)).buffer;
+    return (await import('pako')).ungzip(new Uint8Array(buffer)).buffer;
   }
 }
 
